@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LAROUZE INFO - Sant Jesyon Pòs & Afish</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #131b2e;
+      --accent: #2563eb;
+      --accent-gold: #f59e0b;
+      --text: #f8fafc;
+      --text-dim: #94a3b8;
+      --success: #10b981;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background: var(--bg); color: var(--text); padding-bottom: 60px; }
+    header {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      padding: 24px 20px;
+      text-align: center;
+      border-bottom: 2px solid #334155;
+    }
+    .brand-title { font-size: 26px; font-weight: 900; letter-spacing: 1px; color: #fff; }
+    .brand-title span { color: var(--accent-gold); }
+    .brand-sub { font-size: 14px; color: var(--text-dim); margin-top: 6px; }
+    .status-bar {
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      color: #34d399;
+    }
+    .pulse-dot { width: 8px; height: 8px; background: #34d399; border-radius: 50%; box-shadow: 0 0 8px #34d399; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+    .section-title { font-size: 20px; font-weight: 800; margin: 24px 0 16px; color: #e2e8f0; display: flex; align-items: center; gap: 8px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #1e293b;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      transition: transform 0.2s;
+    }
+    .card:hover { transform: translateY(-4px); }
+    .card-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--accent-gold);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 5px 10px;
+      border-radius: 8px;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+    .card-img-box {
+      width: 100%;
+      aspect-ratio: 4/5;
+      background: #020617;
+      overflow: hidden;
+    }
+    .card-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .card-body { padding: 18px; flex: 1; display: flex; flex-direction: column; }
+    .card-title { font-size: 16px; font-weight: 800; line-height: 1.4; color: #fff; margin-bottom: 8px; }
+    .card-desc { font-size: 13px; color: var(--text-dim); line-height: 1.5; margin-bottom: 16px; flex: 1; }
+    .card-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 10px;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: filter 0.2s;
+    }
+    .btn-copy { background: var(--accent); color: white; }
+    .btn-copy.copied { background: var(--success); }
+    .btn-dl { background: #334155; color: white; }
+    .btn:hover { filter: brightness(1.15); }
+    .hidden-text { display: none; }
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #10b981;
+      color: white;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 12px 24px;
+      border-radius: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      display: none;
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand-title">LAROUZE <span>INFO</span></div>
+    <div class="brand-sub">Sistèm Piblikasyon & Sant Distribisyon Pòs Facebook</div>
+    <div class="status-bar">
+      <span class="pulse-dot"></span>
+      <span>LÒ 8 AN LİY - 5 NOUVO PÒS TOU NÈF</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="section-title">🔥 Dènye Pòs Pare Pou Pibliye (Lò 8)</div>
+    <div class="grid">
+      
+    <div class="card">
+      <div class="card-badge">POST 1</div>
+      <div class="card-img-box">
+        <img src="posts/post_1/afish.jpg" alt="Afish 1" loading="lazy" />
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">FLASH EKONOMI / BRANA OBLIJE FEMEN PÒT LI PWOWIZWAMAN : PWODIKSYON BYÈ PRESTIGE BLOKE AKOZ KRIZ ENSEKIRITE A!</h3>
+        <p class="card-desc">Yon gwo souflèt pou ekonomi nasyonal la ak mond travay la! Konpayi Brasri Nasyonal d Ayiti (BRANA), ki fabrike byè Prestige e ki fè pati gwoup Heineken, oblije sispann tout aktivite pwodiksyon ak distribisyon li yo pou yon ti tan akoz degradasyon klima sekirite a nan zòn metwopolitèn Pòtoprens lan!</p>
+        <div class="card-actions">
+          <button class="btn btn-copy" onclick="copyText(1)">📋 KOPYE TÈKS LA</button>
+          <a class="btn btn-dl" href="posts/post_1/afish.jpg" download="Larouze_Post_1.jpg">📥 TELECHAJE AFISH</a>
+        </div>
+        <textarea id="text-1" class="hidden-text">🚨🍺 FLASH EKONOMI / BRANA OBLIJE FEMEN PÒT LI PWOWIZWAMAN : PWODIKSYON BYÈ PRESTIGE BLOKE AKOZ KRIZ ENSEKIRITE A!
+
+Yon gwo souflèt pou ekonomi nasyonal la ak mond travay la! Konpayi Brasri Nasyonal d Ayiti (BRANA), ki fabrike byè Prestige e ki fè pati gwoup Heineken, oblije sispann tout aktivite pwodiksyon ak distribisyon li yo pou yon ti tan akoz degradasyon klima sekirite a nan zòn metwopolitèn Pòtoprens lan!
+
+📌 Direksyon BRANA fè konnen desizyon difisil sa a pran pou pwoteje lavi ak sekirite tout travayè, patnè ak distribitè li yo devan menas atak ak tire k ap fèt nan zòn endistriyèl la.
+📌 BRANA se youn nan pi gwo antrepriz prive nan peyi a ki kreye plizyè milye djòb dirèk ak endirèk depi plizyè deseni.
+📌 Fèmti pwovizwa sa a ap gen gwo konsekans sou komès, ti machann, depo bwason ak tout chèn distribisyon an ki depann de pwodwi sa yo chak jou.
+📌 Responsab konpayi an souliye yo rete angaje ak peyi a, e y ap suiv sitiyasyon an an pèmanans ak espwa pou kondisyon sekirite yo retabli pou pèmèt izin nan relanse motè l.
+
+💬 KISA W PANSE SOU NOUVÈL SA A?
+Lè gwo izin tankou BRANA oblije fèmen, ki leson leta dwe tire pou sove sa k rete nan ekonomi nasyonal la? Kite opinyon pa w nan kòmantè!
+
+👍 LIKE | 💬 KOMANTE | 🔁 PATAJE
+👉 Swiv LAROUZE INFO pou w toujou enfòme sou tout dènye nouvèl ekonomik ak devlopman peyi a!
+
+#LarouzeInfo #BRANA #Prestige #EkonomiAyiti #BiznisAyiti #Pòtoprens #KrizAyiti #SekiriteAyiti</textarea>
+      </div>
+    </div>
+  
+    <div class="card">
+      <div class="card-badge">POST 2</div>
+      <div class="card-img-box">
+        <img src="posts/post_2/afish.jpg" alt="Afish 2" loading="lazy" />
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">FYETE & DYASPORA / VIL OKAP AP RESEVWA GWO SALON DE LA DYASPORA SOU BOULDVA A 6 AK 7 NOVANM SA A!</h3>
+        <p class="card-desc">Vil Okap pare pou l briye ak akeyi tout pitit li yo! Ministè Ayisyen k ap Viv Aletranje (MHAVE) an kolaborasyon ak Otorite Minisipal Okap yo ap òganize premye gwo "Salon de la Diaspora" sou Bouldva Okap la vandredi 6 ak samdi 7 novanm sa a!</p>
+        <div class="card-actions">
+          <button class="btn btn-copy" onclick="copyText(2)">📋 KOPYE TÈKS LA</button>
+          <a class="btn btn-dl" href="posts/post_2/afish.jpg" download="Larouze_Post_2.jpg">📥 TELECHAJE AFISH</a>
+        </div>
+        <textarea id="text-2" class="hidden-text">🌴🇭🇹 FYETE & DYASPORA / VIL OKAP AP RESEVWA GWO SALON DE LA DYASPORA SOU BOULDVA A 6 AK 7 NOVANM SA A!
+
+Vil Okap pare pou l briye ak akeyi tout pitit li yo! Ministè Ayisyen k ap Viv Aletranje (MHAVE) an kolaborasyon ak Otorite Minisipal Okap yo ap òganize premye gwo "Salon de la Diaspora" sou Bouldva Okap la vandredi 6 ak samdi 7 novanm sa a!
+
+📌 Evènman istorik sa a reyini plizyè santèn konpatriyòt ki soti nan dyaspora a, antreprenè, envestisè ak kreyatè pou diskite sou opòtinite envestisman nan Gran Nò a.
+📌 Minis MHAVE a, Dominique Verdier, ak otorite lokal yo anonse yon pwogram rich ak fwa atizana, konferans sou ekonomi, ekspozisyon kiltirèl ak bèl animasyon mizikal sou tout bouldva a.
+📌 Salon an vize fasilite koneksyon dirèk ant dyaspora a ak pwodiktè lokal yo pou devlope touris, agrikilti ak inovasyon teknolojik nan dezyèm vil peyi a.
+📌 Popilasyon Nò a ak vizitè yo deja mobilized pou fè de jou sa yo yon gwo fèt kiltirèl ak yon vrè pwen depa pou devlopman rejyonal la.
+
+💬 VOYE YON BÈL SALITASYON POU VIL OKAP:
+Èske w kwè inisyativ konsa dwe fèt nan tout lòt vil nan pwovens yo tou? Pataje lanmou w pou vil Okap nan kòmantè yo!
+
+👍 LIKE | 💬 KOMANTE | 🔁 PATAJE
+👉 Swiv LAROUZE INFO pou tout bèl inisyativ pozitif, kiltirèl ak devlopman k ap fèt nan kominote nou yo!
+
+#LarouzeInfo #VilOkap #CapHaitien #SalonDeLaDiaspora #MHAVE #DyasporaAyisyen #KiltiAyiti #DevlopmanNò</textarea>
+      </div>
+    </div>
+  
+    <div class="card">
+      <div class="card-badge">POST 3</div>
+      <div class="card-img-box">
+        <img src="posts/post_3/afish.jpg" alt="Afish 3" loading="lazy" />
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">SEKIRITE FWONTYÈ / MINIS DEFANS REPIBLIK DOMINIKÈN LANSE YON GWO ENSPEKSYON NAN DAJABÓN AK WANAMENT: « FWONTYÈ A KALM E SOU KONTWÒL! »</h3>
+        <p class="card-desc">Lame dominikèn ranfòse prezans li sou liy fwontyè a! Minis Defans Repiblik Dominikèn nan, Lyetnan Jeneral Carlos Antonio Fernández Onofre, te mennen yon gwo vizit enspeksyon sou fwontyè Nò a nan Dajabón ak zòn Wanament pou evalye dispozitif sekirite a!</p>
+        <div class="card-actions">
+          <button class="btn btn-copy" onclick="copyText(3)">📋 KOPYE TÈKS LA</button>
+          <a class="btn btn-dl" href="posts/post_3/afish.jpg" download="Larouze_Post_3.jpg">📥 TELECHAJE AFISH</a>
+        </div>
+        <textarea id="text-3" class="hidden-text">🇩🇴🇭🇹 SEKIRITE FWONTYÈ / MINIS DEFANS REPIBLIK DOMINIKÈN LANSE YON GWO ENSPEKSYON NAN DAJABÓN AK WANAMENT: « FWONTYÈ A KALM E SOU KONTWÒL! »
+
+Lame dominikèn ranfòse prezans li sou liy fwontyè a! Minis Defans Repiblik Dominikèn nan, Lyetnan Jeneral Carlos Antonio Fernández Onofre, te mennen yon gwo vizit enspeksyon sou fwontyè Nò a nan Dajabón ak zòn Wanament pou evalye dispozitif sekirite a!
+
+📌 Jeneral Fernández Onofre deklare apre vizit la: "Fwontyè a kalm, li an sekirite e fòs nou yo kenbe tout sitiyasyon an anba kontwòl san okenn ensidan."
+📌 Minis la enspekte tout baz kòmandman CESFRONT yo ak pwen kontwòl lame a kote li verifye preparasyon twoup yo ak ekipman siveyans yo sou fwontyè a.
+📌 Operasyon ankadreman ak rapatriman imigran yo kontinye fèt anba gwo siveyans militè nan tout koridò fwontalye yo.
+📌 Otorite dominiken yo konfime siveyans tè ak lè a rete sou nivo alèt maksimòm pou anpeche nenpòt debòdman ki ta ka rive sou fwontyè a.
+
+💬 KISA W PANSE SOU DEKLARASYON SA A?
+Ki pozisyon otorite ayisyen yo dwe pran sou dosye fwontyè a ak jesyon koule migratwa a? Kite opinyon pa w anba a!
+
+👍 LIKE | 💬 KOMANTE | 🔁 PATAJE
+👉 Swiv LAROUZE INFO pou tout analiz ak enfòmasyon egzak sou sitiyasyon fwontyè Ayiti ak Repiblik Dominikèn!
+
+#LarouzeInfo #FwontyèAyitiRD #Dajabon #Wanament #SekiriteFwontyè #FernandezOnofre #RepiblikDominiken #Aktyalite</textarea>
+      </div>
+    </div>
+  
+    <div class="card">
+      <div class="card-badge">POST 4</div>
+      <div class="card-img-box">
+        <img src="posts/post_4/afish.jpg" alt="Afish 4" loading="lazy" />
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">ELEKSYON AN AYITI / DÈNYE CHIF OFISYÈL KEP YO : PLIS PASE 912,000 ELEKTÈ ENSKRI EPI 8,658 KANDIDA ANREJISTRE SOU PLATFÒM ANLIY LA!</h3>
+        <p class="card-desc">Kous elektoral la ap vanse malgre difikilte yo! Konsèy Elektoral Pwovizwa a (KEP) pibliye dènye bilan ofisyèl sou operasyon enskripsyon yo kote li revele ke 912,064 sitwayen deja anrejistre pou vote nan pwochen eleksyon jeneral yo!</p>
+        <div class="card-actions">
+          <button class="btn btn-copy" onclick="copyText(4)">📋 KOPYE TÈKS LA</button>
+          <a class="btn btn-dl" href="posts/post_4/afish.jpg" download="Larouze_Post_4.jpg">📥 TELECHAJE AFISH</a>
+        </div>
+        <textarea id="text-4" class="hidden-text">🗳️🇭🇹 ELEKSYON AN AYITI / DÈNYE CHIF OFISYÈL KEP YO : PLIS PASE 912,000 ELEKTÈ ENSKRI EPI 8,658 KANDIDA ANREJISTRE SOU PLATFÒM ANLIY LA!
+
+Kous elektoral la ap vanse malgre difikilte yo! Konsèy Elektoral Pwovizwa a (KEP) pibliye dènye bilan ofisyèl sou operasyon enskripsyon yo kote li revele ke 912,064 sitwayen deja anrejistre pou vote nan pwochen eleksyon jeneral yo!
+
+📌 KEP la fè konnen platfòm dijital li a anrejistre tou 8,658 dosye kandidati sou entènèt pou diferan pòs elektif nan tout peyi a.
+📌 Malgre defi sekirite ak lojistik nan plizyè rejyon, enstitisyon elektoral la kontinye travay sou kalandriye a ak prepare materyèl sansib yo.
+📌 Responsab KEP yo fè apèl ak tout pati politik, sosyete sivil ak sitwayen yo pou patisipe aktif nan pwosesis la pou pèmèt peyi a retounen nan lòd konstitisyonèl.
+📌 Plizyè patnè entènasyonal renouvle volonte yo pou finanse ak asire sekirite pwosesis elektoral la pou garanti yon vòt lib ak transparan.
+
+💬 KISA W PANSE SOU PREPARASYON SA YO?
+Èske w panse kondisyon yo ka reyini pou Ayiti fè eleksyon ki kredib nan mwa k ap vini yo? Pataje opinyon pa w!
+
+👍 LIKE | 💬 KOMANTE | 🔁 PATAJE
+👉 Swiv LAROUZE INFO pou w pa rate okenn etap nan evolisyon pwosesis elektoral peyi a!
+
+#LarouzeInfo #EleksyonAyiti #KEP #DemokrasiAyiti #VoteAyiti #SitwayenAngaje #PolitikAyiti #LòdKonstitisyonèl</textarea>
+      </div>
+    </div>
+  
+    <div class="card">
+      <div class="card-badge">POST 5</div>
+      <div class="card-img-box">
+        <img src="posts/post_5/afish.jpg" alt="Afish 5" loading="lazy" />
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">LAJISTIS AK LALWA / MINISTÈ LAJISTIS LANSE YON GWO SESYON FÒMASYON SOU NOUVO KÒD PENAL LA POU JI AK AVOKA NAN VIL OKAY!</h3>
+        <p class="card-desc">Lajistis nan Gran Sid la ap renouvle zouti li yo! Ministè Lajistis ak Sekirite Piblik (MJSP) sot louvri ofisyèlman nan vil Okay yon gwo atelye fòmasyon sou aplikasyon Nouvo Kòd Penal la ak Nouvo Kòd Pwosedi Penal la!</p>
+        <div class="card-actions">
+          <button class="btn btn-copy" onclick="copyText(5)">📋 KOPYE TÈKS LA</button>
+          <a class="btn btn-dl" href="posts/post_5/afish.jpg" download="Larouze_Post_5.jpg">📥 TELECHAJE AFISH</a>
+        </div>
+        <textarea id="text-5" class="hidden-text">⚖️🇭🇹 LAJISTIS AK LALWA / MINISTÈ LAJISTIS LANSE YON GWO SESYON FÒMASYON SOU NOUVO KÒD PENAL LA POU JI AK AVOKA NAN VIL OKAY!
+
+Lajistis nan Gran Sid la ap renouvle zouti li yo! Ministè Lajistis ak Sekirite Piblik (MJSP) sot louvri ofisyèlman nan vil Okay yon gwo atelye fòmasyon sou aplikasyon Nouvo Kòd Penal la ak Nouvo Kòd Pwosedi Penal la!
+
+📌 Sesyon entansif sa a reyini plizyè dizèn majistra, jij enstriksyon, komisè gouvènman, jij de pè ak avoka ki soti nan tout jiridiksyon Okay, Akilen, Miragwàn ak Jeremi.
+📌 Nouvo kòd sa yo fèt pou modènize sistèm jidisyè a, akselere jijman prevni yo, epi konbat detansyon prevantif pwolonje ki paralize prizon yo depi lontan.
+📌 Fòmatè yo mete aksan sou nouvo mekanis legal pou trete dosye krim grav, koripsyon finansye ak vyolans sou fanm ak timoun.
+📌 Patisipan yo salye inisyativ sa a ki pral pèmèt tribinal yo pi efikas, pi jis e pi transparan nan rann jistis pou tout sitwayen san patipri.
+
+💬 KISA W DI SOU REFÒM JIDISYÈ A?
+Èske w kwè Nouvo Kòd Penal la ka ede konbat koripsyon ak enpinyite nan lajistis ayisyen an? Di nou sa w panse nan kòmantè!
+
+👍 LIKE | 💬 KOMANTE | 🔁 PATAJE
+👉 Swiv LAROUZE INFO pou tout nouvèl sou refòm lajistis, dwa moun ak eta de dwa nan peyi nou!
+
+#LarouzeInfo #LajistisAyiti #VilOkay #NouvoKòdPenal #MJSP #GranSid #LalwaAyiti #EtaDeDwa</textarea>
+      </div>
+    </div>
+  
+    </div>
+  </div>
+
+  <div id="toast" class="toast">✅ Tèks la kopye ak siksè! Ale kole l sou Facebook!</div>
+
+  <script>
+    function copyText(idx) {
+      const el = document.getElementById('text-' + idx);
+      if (el) {
+        navigator.clipboard.writeText(el.value).then(() => {
+          const toast = document.getElementById('toast');
+          toast.style.display = 'block';
+          setTimeout(() => toast.style.display = 'none', 2500);
+          const btn = event.target;
+          const orig = btn.innerText;
+          btn.innerText = '✅ KOPYE!';
+          btn.classList.add('copied');
+          setTimeout(() => {
+            btn.innerText = orig;
+            btn.classList.remove('copied');
+          }, 2000);
+        });
+      }
+    }
+  </script>
+</body>
+</html>
