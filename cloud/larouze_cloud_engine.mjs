@@ -567,15 +567,11 @@ async function handleVideoMessage(chatId, msg) {
 
     const meta = buildLarouzePost(topicText, newsData, Boolean(caption));
 
-    renderCloudPoster(extractedFrame, outPoster, meta);
-    await sendPhotoAndPost(chatId, outPoster, `✅ AFISH MODÈL A (TIRE NAN VIDEYO W LA) : ${meta.t1} ${meta.t2}`, meta.postText);
-
-    try {
-      renderBrandedVideoReel(rawVideo, outReel, meta);
-      if (fs.existsSync(outReel)) {
-        await sendVideoReel(chatId, outReel, `🎬 REEL LAROUZE INFO PARE : ${meta.t1} ${meta.t2}`);
-      }
-    } catch (e) {}
+    renderBrandedVideoReel(rawVideo, outReel, meta);
+    if (fs.existsSync(outReel)) {
+      await sendVideoReel(chatId, outReel, `🎬 REEL LAROUZE INFO PARE : ${meta.t1} ${meta.t2}`);
+      await sendText(chatId, meta.postText);
+    }
   } catch (err) {
     await sendText(chatId, `⚠️ Erè videyo: ${err.message}`);
   }
