@@ -616,25 +616,73 @@ async function runHourlyBatch() {
   }
 }
 
+async function triggerNextCloudCycle() {
+  const ghToken = process.env.GH_PAT;
+  if (!ghToken) return;
+  const owner = 'gaelledorvil6-ship-it';
+  const repo = 'larouze-info';
+  try {
+    let sha = undefined;
+    const check = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/cloud/heartbeat.json`, {
+      headers: { 'User-Agent': 'Larouze-Bot', 'Authorization': `token ${ghToken}` },
+      signal: AbortSignal.timeout(10000)
+    });
+    if (check.status === 200) {
+      const ex = await check.json();
+      sha = ex.sha;
+    }
+    const payload = Buffer.from(JSON.stringify({ lastCycleEnd: new Date().toISOString() }, null, 2)).toString('base64');
+    await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/cloud/heartbeat.json`, {
+      method: 'PUT',
+      headers: {
+        'User-Agent': 'Larouze-Bot',
+        'Authorization': `token ${ghToken}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: 'Cloud 24/7 auto-heartbeat relay',
+        content: payload,
+        sha
+      }),
+      signal: AbortSignal.timeout(10000)
+    });
+    console.log('Triggered next 5-hour cloud cycle via heartbeat commit.');
+  } catch (e) {
+    console.error('Heartbeat trigger warning:', e.message);
+  }
+}
+
 async function main() {
+  let lastHourlyTime = 0;
   if (process.env.RUN_HOURLY === 'true') {
     await runHourlyBatch();
+    lastHourlyTime = Date.now();
   }
 
-  const endTime = Date.now() + 55 * 60 * 1000;
+  // Run continuously for 4 hours 50 minutes (290 mins), executing hourly batch every 60 mins + Telegram bot listener every 2s
+  const endTime = Date.now() + 290 * 60 * 1000;
   let offset = 0;
   try {
-    const initRes = await fetch(`${API_BASE}/getUpdates?offset=-1`);
+    const initRes = await fetch(`${API_BASE}/getUpdates?offset=-1`, { signal: AbortSignal.timeout(10000) });
     const initData = await initRes.json();
     if (initData.ok && initData.result.length > 0) {
       offset = initData.result[initData.result.length - 1].update_id + 1;
     }
   } catch (e) {}
 
-  console.log("Larouze Cloud 24/7 Bot Listener v3 (Text + Photo + Video) active...");
+  console.log("Larouze Cloud 24/7 Bot Listener v5 (Self-Chaining 5h + Internal Hourly Timer) active...");
   while (Date.now() < endTime) {
     try {
-      const res = await fetch(`${API_BASE}/getUpdates?offset=${offset}&timeout=15`);
+      // Internal 60-minute clock so hourly batches fire even when GitHub cron is delayed
+      if (process.env.RUN_HOURLY === 'true' && (Date.now() - lastHourlyTime >= 60 * 60 * 1000)) {
+        lastHourlyTime = Date.now();
+        await runHourlyBatch();
+      }
+
+      const res = await fetch(`${API_BASE}/getUpdates?offset=${offset}&timeout=15`, {
+        signal: AbortSignal.timeout(22000)
+      });
       const data = await res.json();
       if (data.ok && data.result.length > 0) {
         for (const upd of data.result) {
@@ -655,6 +703,9 @@ async function main() {
       await new Promise(r => setTimeout(r, 3000));
     }
   }
+
+  await triggerNextCloudCycle();
+  process.exit(0);
 }
 
 main();
