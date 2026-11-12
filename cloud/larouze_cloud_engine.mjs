@@ -244,7 +244,7 @@ function renderCloudPoster(photoPath, outPath, meta) {
   }
 }
 
-function renderBrandedVideoReel(inVideoPath, outVideoPath, meta) {
+async function renderBrandedVideoReel(inVideoPath, outVideoPath, meta) {
   const linuxFont = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf';
   const winFont = 'C\\:/Windows/Fonts/ariblk.ttf';
   const fontArg = fs.existsSync(linuxFont) ? `:fontfile=${linuxFont}` : (process.platform === 'win32' ? `:fontfile='${winFont}'` : '');
@@ -252,6 +252,31 @@ function renderBrandedVideoReel(inVideoPath, outVideoPath, meta) {
   const t1 = esc(meta.t1);
   const t2 = esc(meta.t2);
   const badge = esc(meta.badge || 'FLASH INFO');
+
+  const ts = Date.now();
+  const voMp3 = path.join(WORK_DIR, `cloud_vo_${ts}.mp3`);
+  let hasVo = false;
+  try {
+    const elKey = process.env.ELEVENLABS_API_KEY || 'sk_9421b60ef82310b78ec36bf306e1641eade46ef54a249ee8';
+    const voiceId = 'PEjMkBhSB6492eADs4Ew'; // Wesly (Creole accent)
+    const voScript = `Lòwouz Enfo! ${t1} ${t2}. Swiv Lòwouz Enfo pou w rete konekte 24 sou 24 ak tout nouvèl verifye!`;
+    const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`, {
+      method: 'POST',
+      headers: { 'xi-api-key': elKey, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text: voScript,
+        model_id: 'eleven_multilingual_v2',
+        voice_settings: { stability: 0.45, similarity_boost: 0.82, style: 0.35, use_speaker_boost: true }
+      })
+    });
+    if (res.ok) {
+      const buf = Buffer.from(await res.arrayBuffer());
+      if (buf.length > 1000) {
+        fs.writeFileSync(voMp3, buf);
+        hasVo = true;
+      }
+    }
+  } catch (e) {}
 
   const vf = [
     `scale=1080:1920:force_original_aspect_ratio=increase`,
@@ -268,12 +293,28 @@ function renderBrandedVideoReel(inVideoPath, outVideoPath, meta) {
     `drawtext=text='SWIV LAROUZE INFO POU TOUT NOUVEL VERIFYE'${fontArg}:fontcolor=white:fontsize=28:x=(w-text_w)/2:y=1825`
   ].join(',');
 
-  execFileSync('ffmpeg', [
-    '-y', '-i', inVideoPath, '-t', '25',
-    '-vf', vf,
-    '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '128k',
-    outVideoPath
-  ], { stdio: 'ignore' });
+  try {
+    if (hasVo) {
+      execFileSync('ffmpeg', [
+        '-y', '-stream_loop', '-1', '-t', '12', '-i', inVideoPath,
+        '-i', voMp3,
+        '-vf', vf,
+        '-map', '0:v:0', '-map', '1:a:0',
+        '-t', '12',
+        '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '192k',
+        outVideoPath
+      ], { stdio: 'ignore' });
+    } else {
+      execFileSync('ffmpeg', [
+        '-y', '-i', inVideoPath, '-t', '25',
+        '-vf', vf,
+        '-c:v', 'libx264', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '128k',
+        outVideoPath
+      ], { stdio: 'ignore' });
+    }
+  } finally {
+    if (fs.existsSync(voMp3)) try { fs.unlinkSync(voMp3); } catch (e) {}
+  }
 }
 
 async function fetchVerifiedPhoto(query, newsData, destPath) {
@@ -567,9 +608,9 @@ async function handleVideoMessage(chatId, msg) {
 
     const meta = buildLarouzePost(topicText, newsData, Boolean(caption));
 
-    renderBrandedVideoReel(rawVideo, outReel, meta);
+    await renderBrandedVideoReel(rawVideo, outReel, meta);
     if (fs.existsSync(outReel)) {
-      await sendVideoReel(chatId, outReel, `🎬 REEL LAROUZE INFO PARE : ${meta.t1} ${meta.t2}`);
+      await sendVideoReel(chatId, outReel, `🎙️🎬 REEL LAROUZE INFO AK VWA ELEVENLABS : ${meta.t1} ${meta.t2}`);
       await sendText(chatId, meta.postText);
     }
   } catch (err) {
